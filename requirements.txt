@@ -6,3 +6,5 @@ plotly
 easyocr
 googletrans
 gtts
+langchain
+
