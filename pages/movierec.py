@@ -66,8 +66,10 @@ if st.button("Convert"):
             text = display_text(detected_text)
             res = [int(i) for i in text.split() if i.isdigit()]
             num = re.findall(r'\d+', text) 
+            lst_int = list(map(int,num))
             st.write(res)
             st.write(num)
+            st.write(lst_int)
             # Define the coefficients
             a = np.array([[3]])
 
