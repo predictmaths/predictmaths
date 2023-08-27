@@ -3,4 +3,4 @@ tensorflow
 streamlit-cropper
 matplotlib
 plotly
-easyocr==1.4
+easyocr
