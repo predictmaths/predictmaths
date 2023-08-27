@@ -64,7 +64,7 @@ if st.button("Convert"):
             st.subheader('Extracted text is ...')
             text = display_text(detected_text)
             res = [int(i) for i in text.split() if i.isdigit()]
-            print("The numbers list is :" + str(res))
+            st.write(res)
             # Define the coefficients
             a = np.array([[3]])
 
