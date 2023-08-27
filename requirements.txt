@@ -4,3 +4,4 @@ streamlit-cropper
 matplotlib
 plotly
 easyocr
+google-trans-new
