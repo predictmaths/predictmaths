@@ -42,7 +42,6 @@ if st.sidebar.button("Translate!"):
 
 
 st.set_option('deprecation.showfileUploaderEncoding',False)
-st.title('Hack for Africa - AI OCR')
 st.subheader('Optical Character Recognition with Voice output')
 st.text('Select source Language from the Sidebar.')
 
@@ -64,6 +63,8 @@ if st.button("Convert"):
                 detected_text = eng_reader.readtext(img)
             st.subheader('Extracted text is ...')
             text = display_text(detected_text)
+            res = [int(i) for i in text.split() if i.isdigit()]
+            print("The numbers list is :" + str(res))
             # Define the coefficients
             a = np.array([[3]])
 
