@@ -84,7 +84,7 @@ if st.button("Convert"):
 
             # Print the solution
             st.write(text)
-            st.write("Answer Is:"x)
+            st.write("Answer Is:"+x)
             
 
         elif src=='Swahili':
