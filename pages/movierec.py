@@ -117,20 +117,6 @@ if st.button("Convert"):
         ta_tts.save('trans.mp3')
         st.audio('trans.mp3',format='audio/mp3')
         
-
-        with st.spinner('Translating Text...'):
-            result = translator.translate(text, src=f'{source}', dest=f'{dst}').text
-        st.subheader("Translated Text is ...")
-        st.write(result) 
-
-        st.write('')
-        st.header('Generated Audio')
-        
-        with st.spinner('Generating Audio ...'):
-            ta_tts2 = gTTS(result,lang=f'{dst}')
-            ta_tts2.save('trans2.mp3')
-        st.audio('trans2.mp3',format='audio/mp3')  
-        st.balloons()  
                
             
     else:
