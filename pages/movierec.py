@@ -74,10 +74,10 @@ if st.button("Convert"):
             st.write(lst_int)
             st.write(secnum)
             # Define the coefficients
-            a = np.array([firstnum])
+            a = np.array([3])
 
             # Define the constants
-            b = np.array([secnum])
+            b = np.array([6])
 
             # Solve the equation
             x = np.linalg.solve(a, b)
