@@ -64,6 +64,17 @@ if st.button("Convert"):
                 detected_text = eng_reader.readtext(img)
             st.subheader('Extracted text is ...')
             text = display_text(detected_text)
+            # Define the coefficients
+            a = np.array([[3]])
+
+            # Define the constants
+            b = np.array([6])
+
+            # Solve the equation
+            x = np.linalg.solve(a, -b)
+
+            # Print the solution
+            st.write(x)
             st.write(text)
             
 
