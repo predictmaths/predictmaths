@@ -74,13 +74,13 @@ if st.button("Convert"):
             st.write(lst_int)
             st.write(secnum)
             # Define the coefficients
-            a = np.array([3])
+            a = np.array([[3]])
 
             # Define the constants
             b = np.array([6])
 
             # Solve the equation
-            x = np.linalg.solve(a, b)
+            x = np.linalg.solve(a, -b)
 
             # Print the solution
             st.write(x)
