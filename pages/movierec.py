@@ -83,8 +83,8 @@ if st.button("Convert"):
             x = np.linalg.solve(a, b)
 
             # Print the solution
-            st.write(x)
             st.write(text)
+            st.write("Answer Is:"x)
             
 
         elif src=='Swahili':
