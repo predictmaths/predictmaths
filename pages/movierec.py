@@ -4,6 +4,7 @@ from googletrans import Translator
 from gtts import gTTS
 from PIL import Image
 import numpy as np
+import re
 
 translator = Translator()
 
@@ -64,7 +65,9 @@ if st.button("Convert"):
             st.subheader('Extracted text is ...')
             text = display_text(detected_text)
             res = [int(i) for i in text.split() if i.isdigit()]
+            num = re.findall(r'\d+', text) 
             st.write(res)
+            st.write(num)
             # Define the coefficients
             a = np.array([[3]])
 
