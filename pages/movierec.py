@@ -1,81 +1,117 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import plotly.express as px
+import easyocr
+from googletrans import Translator
+from gtts import gTTS
 from PIL import Image
+import numpy as np
+
+translator = Translator()
+
+def display_text(bounds):
+    text = []
+    for x in bounds:
+        t = x[1]
+        text.append(t)
+    text = ' '.join(text)
+    return text 
 
 
-movies_data = pd.read_csv("https://raw.githubusercontent.com/danielgrijalva/movie-stats/7c6a562377ab5c91bb80c405be50a0494ae8e582/movies.csv")
+st.sidebar.title('Language Selection Menu')
+st.sidebar.subheader('Select...')
+src = st.sidebar.selectbox("From Language",['English','Swahili','Arabic','Afrikaans'])
 
-movies_data.info()
+st.sidebar.subheader('Select...')
+destination = st.sidebar.selectbox("To Language",['Afrikaans','Arabic','Swahili','English'])
 
-movies_data.duplicated()
+st.sidebar.subheader("Enter Text")
+area = st.sidebar.text_area("Auto Detection Enabled","")
 
-movies_data.count()
+helper = {'Afrikaans':'af','Swahili':'sw','English':'en','Arabic':'ar'}
+dst = helper[destination]
+source = helper[src]
 
-movies_data.dropna()
-
-
-
-
-st.set_page_config(
-    page_title="Multipage App",
-    page_icon="👋",
-)
-
-st.write("""Average Movie Budget, Grouped by Genre""")
-st.write(st.session_state.year)
-st.write(st.session_state.genre)
-if st.session_state.year == '3':
-    newyear = 3
-avg_budget = movies_data.groupby('genre')['budget'].mean().round()
-avg_budget = avg_budget.reset_index()
-genre = avg_budget['genre']
-avg_bud = avg_budget['budget']
-
-fig = plt.figure(figsize = (19, 10))
-
-plt.bar(genre, avg_bud, color = 'maroon')
-plt.xlabel('genre')
-plt.ylabel('budget')
-plt.title('Matplotlib Bar Chart Showing the Average \
-Budget of Movies in Each Genre')
+if st.sidebar.button("Translate!"):
+    if len(area)!=0:
+        sour = translator.detect(area).lang
+        answer = translator.translate(area, src=f'{sour}', dest=f'{dst}').text
+        #st.sidebar.text('Answer')
+        st.sidebar.text_area("Answer",answer)
+        st.balloons()
+    else:
+        st.sidebar.subheader('Enter Text!')    
 
 
+st.set_option('deprecation.showfileUploaderEncoding',False)
+st.title('Hack for Africa - AI OCR')
+st.subheader('Optical Character Recognition with Voice output')
+st.text('Select source Language from the Sidebar.')
 
-# Creating sidebar widget unique values from our movies dataset
-score_rating = movies_data['score'].unique().tolist()
-genre_list = movies_data['genre'].unique().tolist()
-year_list = movies_data['year'].unique().tolist()
+image_file = st.file_uploader("Upload Image",type=['jpg','png','jpeg','JPG'])
 
-with st.sidebar:
-    st.write("Select a range on the slider (it represents movie score) \to view the total number of movies in a genre that falls \ within that range ")
-    #create a slider to hold user scores
-    new_score_rating = st.slider(label = "Choose a value:",min_value = 1.0,max_value = 10.0,value = (3.0,4.0))
 
-#create a multiselect widget to display genre
-new_genre_list = st.multiselect('Choose Genre:',genre_list, default = [st.session_state.genre])
-#create a selectbox option that holds all unique years
-year = st.selectbox('Choose a Year',year_list, 3)
+if st.button("Convert"):
+    
+    if image_file is not None:
+        img = Image.open(image_file)
+        img = np.array(img)
+        
+        st.subheader('Image you Uploaded...')
+        st.image(image_file,width=450)
+        
+        if src=='English':
+            with st.spinner('Extracting Text from given Image'):
+                eng_reader = easyocr.Reader(['en'])
+                detected_text = eng_reader.readtext(img)
+            st.subheader('Extracted text is ...')
+            text = display_text(detected_text)
+            st.write(text)
+            
 
-#Configure and filter the slider widget for interactivity
-score_info = (movies_data['score'].between(*new_score_rating))
-#Filter the selectbox and multiselect widget for interactivity
-new_genre_year = (movies_data['genre'].isin(new_genre_list)) & (movies_data['year'] == year)
+        elif src=='Swahili':
+            with st.spinner('Extracting Text from given Image'):
+                swahili_reader = easyocr.Reader(['sw'])
+                detected_text = swahili_reader.readtext(img)
+            st.subheader('Extracted text is ...')
+            text = display_text(detected_text)
+            st.write(text)
+              
 
-# visualization section
-#group the columns needed for visualizations
-col1, col2 = st.columns([2,3])
-with col1:
-    st.write("""#### Lists of movies filtered by year and Genre """)
-    dataframe_genre_year = movies_data[new_genre_year].groupby(['name',  'genre'])['year'].sum()
-    dataframe_genre_year = dataframe_genre_year.reset_index()
-    st.dataframe(dataframe_genre_year, width = 400)
+        elif src=='Afrikaans':
+            with st.spinner('Extracting Text from given Image'):
+                afrikaans_reader = easyocr.Reader(['af'])
+                detected_text = afrikaans_reader.readtext(img)
+            st.subheader('Extracted text is ...')
+            text = display_text(detected_text)
+            st.write(text)
+            
+        
+        elif src=='Arabic':
+            with st.spinner('Extracting Text from given Image...'):
+                arabic_reader = easyocr.Reader(['ar'])
+                detected_text = arabic_reader.readtext(img)
+            st.subheader('Extracted text is ...')
+            text = display_text(detected_text)
+            st.write(text)
+        st.write('')
+        ta_tts = gTTS(text,lang=f'{source}')
+        ta_tts.save('trans.mp3')
+        st.audio('trans.mp3',format='audio/mp3')
+        
 
-with col2:
-    st.write("""#### User score of movies and their genre """)
-    rating_count_year = movies_data[score_info].groupby('genre')['score'].count()
-    rating_count_year = rating_count_year.reset_index()
-    figpx = px.line(rating_count_year, x = 'genre', y = 'score')
-    st.plotly_chart(figpx)
+        with st.spinner('Translating Text...'):
+            result = translator.translate(text, src=f'{source}', dest=f'{dst}').text
+        st.subheader("Translated Text is ...")
+        st.write(result) 
+
+        st.write('')
+        st.header('Generated Audio')
+        
+        with st.spinner('Generating Audio ...'):
+            ta_tts2 = gTTS(result,lang=f'{dst}')
+            ta_tts2.save('trans2.mp3')
+        st.audio('trans2.mp3',format='audio/mp3')  
+        st.balloons()  
+               
+            
+    else:
+        st.subheader('Image not found! Please Upload an Image.')   
