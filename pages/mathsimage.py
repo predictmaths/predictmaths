@@ -69,10 +69,6 @@ if st.button("Convert"):
             lst_int = list(map(int,num))
             firstnum = lst_int[0]
             secnum = lst_int[2]-lst_int[1]
-            st.write(res)
-            st.write(num)
-            st.write(lst_int)
-            st.write(secnum)
             # Define the coefficients
             a = np.array([[firstnum]])
 
