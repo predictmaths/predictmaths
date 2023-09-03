@@ -3,7 +3,7 @@ import streamlit as st
 from langchain import OpenAI, LLMMathChain
 import os
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 llm = OpenAI(temperature=0)
 llm_math = LLMMathChain.from_llm(llm, verbose=True)
 
