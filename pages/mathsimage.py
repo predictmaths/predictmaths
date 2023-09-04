@@ -43,7 +43,7 @@ if st.sidebar.button("Translate!"):
 
 
 st.set_option('deprecation.showfileUploaderEncoding',False)
-st.subheader('Optical Character Recognition with Voice output')
+st.subheader('Optical Character Recognition with Images')
 st.text('Select source Language from the Sidebar.')
 
 image_file = st.file_uploader("Upload Image",type=['jpg','png','jpeg','JPG'])
