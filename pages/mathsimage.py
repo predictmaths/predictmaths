@@ -81,7 +81,7 @@ if st.button("Convert"):
 
             # Print the solution
             st.subheader('Solution:')
-            st.write("substract "+b)
+            st.write("substract ")
             st.write("Answer Is:",x)
             
 
