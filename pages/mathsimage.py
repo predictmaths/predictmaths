@@ -80,7 +80,8 @@ if st.button("Convert"):
             x = np.linalg.solve(a, b)
 
             # Print the solution
-            st.write(text)
+            st.subheader('Solution:')
+            st.write("substract "+b+"from both sides")
             st.write("Answer Is:",x)
             
 
