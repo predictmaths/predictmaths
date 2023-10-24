@@ -64,7 +64,7 @@ if st.button("Convert"):
                 detected_text = eng_reader.readtext(img)
             st.subheader('You Asked to solve ...')
             text = display_text(detected_text)
-            st.subheader('for the variable x')
+            st.subheader(text+'for the variable x')
             res = [int(i) for i in text.split() if i.isdigit()]
             num = re.findall(r'\d+', text) 
             lst_int = list(map(int,num))
