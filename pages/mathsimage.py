@@ -62,8 +62,9 @@ if st.button("Convert"):
             with st.spinner('Extracting Text from given Image'):
                 eng_reader = easyocr.Reader(['en'])
                 detected_text = eng_reader.readtext(img)
-            st.subheader('Extracted text is ...')
+            st.subheader('You Asked to solve ...')
             text = display_text(detected_text)
+            st.subheader('for the variable x')
             res = [int(i) for i in text.split() if i.isdigit()]
             num = re.findall(r'\d+', text) 
             lst_int = list(map(int,num))
