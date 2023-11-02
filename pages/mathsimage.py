@@ -81,7 +81,6 @@ if st.button("Convert"):
 
             # Print the solution
             st.subheader('Solution:')
-            st.write("substract "+secnum)
             st.write("Answer Is:",x)
             
 
